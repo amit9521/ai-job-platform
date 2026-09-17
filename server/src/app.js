@@ -4,6 +4,11 @@ const app = express();
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path}`);
+    next();
+});
+
 app.get("/api/health", (req, res) => {
     res.status(200).json({
         success: true,
@@ -21,7 +26,7 @@ app.get("/api/users/:id", (req, res) => {
 });
 
 app.post("/api/users", (req, res) => {
-    res.status(200).json({
+    res.status(201).json({
         success: true,
         message: "User received",
         data: req.body
