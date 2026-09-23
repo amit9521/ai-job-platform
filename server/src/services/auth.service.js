@@ -10,6 +10,11 @@ const simulateDatabaseOperation = () => {
 };
 
 export const registerUserService = async (userData) => {
+
+    if (userData.email === "error@test.com") {
+        throw new Error("Registration service failed");
+    }
+
     const savedUser = await simulateDatabaseOperation();
 
     return {
