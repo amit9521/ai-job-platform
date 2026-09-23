@@ -1,7 +1,7 @@
 import { registerUserService } from "../services/auth.service.js";
 
-export const registerUser = (req, res) => {
-    const result = registerUserService(req.body);
+export const registerUser = async (req, res) => {
+    const result = await registerUserService(req.body);
 
     res.status(201).json({
         success: true,
