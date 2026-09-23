@@ -1,4 +1,5 @@
 import express from "express";
+import authRouter from "./routes/auth.routes.js";
 
 const app = express();
 
@@ -17,20 +18,6 @@ app.get("/api/health", (req, res) => {
     });
 });
 
-app.get("/api/users/:id", (req, res) => {
-    res.status(200).json({
-        success: true,
-        userId: req.params.id,
-        query: req.query
-    });
-});
-
-app.post("/api/users", (req, res) => {
-    res.status(201).json({
-        success: true,
-        message: "User received",
-        data: req.body
-    });
-});
+app.use("/api/auth", authRouter);
 
 export default app;
