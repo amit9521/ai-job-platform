@@ -1,24 +1,20 @@
 
+
 import { AppError } from "../utils/AppError.js";
+import { registerSchema } from "../validators/auth.validator.js";
 
 export const validateRegister = (req, res, next) => {
-    const { name, email } = req.body;
+    const result = registerSchema.safeParse(req.body);
 
-    if (!name) {
-        return next(new AppError("Name is required", 400));
+    if (!result.success) {
+        const message = result.error.issues
+            .map((issue) => issue.message)
+            .join(", ");
+
+        return next(new AppError(message, 400));
     }
 
-    if (typeof name !== "string") {
-        return next(new AppError("Name must be a string", 400));
-    }
-
-    if (!email) {
-        return next(new AppError("Email is required", 400));
-    }
-
-    if (typeof email !== "string") {
-        return next(new AppError("Email must be a string", 400));
-    }
+    req.body = result.data;
 
     next();
 };
