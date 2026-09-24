@@ -20,13 +20,14 @@ app.get("/api/health", (req, res) => {
 
 app.use("/api/auth", authRouter);
 
-// Centralized error handler
 app.use((err, req, res, next) => {
     console.error(err);
 
-    res.status(500).json({
+    const statusCode = err.statusCode || 500;
+
+    res.status(statusCode).json({
         success: false,
-        message: "Internal server error"
+        message: err.message || "Internal server error"
     });
 });
 
