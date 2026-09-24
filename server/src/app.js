@@ -1,8 +1,14 @@
 import express from "express";
+import authRouter from "./routes/auth.routes.js";
 
 const app = express();
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.path}`);
+    next();
+});
 
 app.get("/api/health", (req, res) => {
     res.status(200).json({
@@ -12,19 +18,16 @@ app.get("/api/health", (req, res) => {
     });
 });
 
-app.get("/api/users/:id", (req, res) => {
-    res.status(200).json({
-        success: true,
-        userId: req.params.id,
-        query: req.query
-    });
-});
+app.use("/api/auth", authRouter);
 
-app.post("/api/users", (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "User received",
-        data: req.body
+app.use((err, req, res, next) => {
+    console.error(err);
+
+    const statusCode = err.statusCode || 500;
+
+    res.status(statusCode).json({
+        success: false,
+        message: err.message || "Internal server error"
     });
 });
 
