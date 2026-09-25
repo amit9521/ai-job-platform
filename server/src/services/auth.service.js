@@ -1,25 +1,22 @@
 import { AppError } from "../utils/AppError.js";
+import User from "../models/User.js";
 
-const simulateDatabaseOperation = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        id: "user-001",
-        created: true,
-      });
-    }, 1000);
-  });
-};
 export const registerUserService = async (userData) => {
-  if (userData.email === "error@test.com") {
-    throw new AppError("Registration service failed", 400);
-  }
+    if (userData.email === "error@test.com") {
+        throw new AppError(
+            "Registration service failed",
+            400
+        );
+    }
 
-  const savedUser = await simulateDatabaseOperation();
+    const user = await User.create({
+        name: userData.name,
+        email: userData.email
+    });
 
-  return {
-    id: savedUser.id,
-    name: userData.name,
-    email: userData.email,
-  };
+    return {
+        id: user._id,
+        name: user.name,
+        email: user.email
+    };
 };
