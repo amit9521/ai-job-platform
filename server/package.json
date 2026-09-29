@@ -3,17 +3,24 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
+ "scripts": {
     "start": "node src/server.js",
-    "dev": "node --watch src/server.js"
-  },
+    "dev": "node --watch src/server.js",
+    "lint": "eslint ."
+},
   "keywords": [],
   "type": "module",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
     "dotenv": "^18.0.3",
     "express": "^5.2.1",
     "mongoose": "^9.10.2",
     "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0",
+    "globals": "^17.12.0"
   }
 }
